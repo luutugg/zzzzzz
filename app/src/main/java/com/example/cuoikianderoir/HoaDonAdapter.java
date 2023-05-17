@@ -20,8 +20,10 @@ public class HoaDonAdapter extends BaseAdapter {
 
     private TextView tien;
 
+    public IListener listener = null;
+
     void addData(List<HoaDonNgaySinh> list) {
-//        listHoaDonNgaySinh.clear();
+        listHoaDonNgaySinh.clear();
         listHoaDonNgaySinh.addAll(list);
         notifyDataSetChanged();
     }
@@ -48,6 +50,9 @@ public class HoaDonAdapter extends BaseAdapter {
 
         anhXaView(view);
 
+        /**
+         * đổ data vào
+         */
         HoaDonNgaySinh hoaDonNgaySinh = (HoaDonNgaySinh) getItem(position);
 
         ten.setText(hoaDonNgaySinh.getHoTen());
@@ -55,6 +60,13 @@ public class HoaDonAdapter extends BaseAdapter {
         soPhong.setText(String.valueOf(hoaDonNgaySinh.getSoPhong()));
 
         tien.setText(String.valueOf(hoaDonNgaySinh.getTien()));
+
+        tien.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onUpdate(hoaDonNgaySinh);
+            }
+        });
 
         return view;
     }
@@ -66,5 +78,9 @@ public class HoaDonAdapter extends BaseAdapter {
         soPhong = view.findViewById(R.id.tvItemPhong);
 
         tien = view.findViewById(R.id.tvItemTien);
+    }
+
+    interface IListener{
+        void onUpdate(HoaDonNgaySinh hoaDonNgaySinh);
     }
 }
